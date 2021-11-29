@@ -1,0 +1,8 @@
+[package]
+name = "http-adapter-ureq"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+http-adapter = { version = "0.1", path = "../http-adapter" }
+ureq = "2.0"
