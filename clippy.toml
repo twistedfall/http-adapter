@@ -1,0 +1,6 @@
+# clippy::large_enum_variant lint
+# Difference between variants should by >2048 bytes for the lint to be triggered
+enum-variant-size-threshold = 256
+# clippy::large_error_threshold lint
+# Difference between variants should by >2048 bytes for the lint to be triggered
+large-error-threshold = 256
