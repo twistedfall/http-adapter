@@ -1,12 +1,21 @@
+use std::error::Error as StdError;
+use std::fmt::{Debug, Display, Formatter, Result as FmtResult};
+
+pub use reqwest;
+
 use http_adapter::async_trait::async_trait;
 use http_adapter::http::{Request, Response};
 use http_adapter::{http, HttpClientAdapter};
-use std::error::Error as StdError;
-use std::fmt::{Debug, Display, Formatter, Result as FmtResult};
 
 #[derive(Clone, Debug)]
 pub struct ReqwestAdapter {
 	client: reqwest::Client,
+}
+
+impl ReqwestAdapter {
+	pub fn new(client: reqwest::Client) -> Self {
+		Self { client }
+	}
 }
 
 impl Default for ReqwestAdapter {

@@ -1,6 +1,7 @@
 use std::error::Error as StdError;
 use std::fmt::{Debug, Display, Formatter, Result as FmtResult};
 
+pub use surf;
 use surf::http::url::ParseError;
 use surf::http::{Method as SurfMethod, StatusCode as SurfStatusCode, Version as SurfVersion};
 
@@ -12,6 +13,12 @@ use http_adapter::{Request, Response};
 #[derive(Clone, Debug)]
 pub struct SurfAdapter {
 	client: surf::Client,
+}
+
+impl SurfAdapter {
+	pub fn new(client: surf::Client) -> Self {
+		Self { client }
+	}
 }
 
 impl Default for SurfAdapter {

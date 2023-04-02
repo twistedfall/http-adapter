@@ -8,6 +8,8 @@ use std::task::{Context, Poll, Waker};
 use std::thread;
 use std::thread::JoinHandle;
 
+pub use ureq;
+
 use http_adapter::async_trait::async_trait;
 use http_adapter::http::{StatusCode, Version};
 use http_adapter::{http, HttpClientAdapter};
@@ -15,14 +17,20 @@ use http_adapter::{Request, Response};
 
 #[derive(Clone, Debug)]
 pub struct UreqAdapter {
-	client: ureq::Agent,
+	agent: ureq::Agent,
+}
+
+impl UreqAdapter {
+	pub fn new(agent: ureq::Agent) -> Self {
+		Self { agent }
+	}
 }
 
 impl Default for UreqAdapter {
 	#[inline]
 	fn default() -> Self {
 		Self {
-			client: ureq::Agent::new(),
+			agent: ureq::Agent::new(),
 		}
 	}
 }
@@ -97,7 +105,7 @@ impl HttpClientAdapter for UreqAdapter {
 	type Error = Error;
 
 	async fn execute(&self, request: Request<Vec<u8>>) -> Result<Response<Vec<u8>>, Self::Error> {
-		let req = from_request(&self.client, &request).map_err(Error::Ureq)?;
+		let req = from_request(&self.agent, &request).map_err(Error::Ureq)?;
 		let res = ThreadFuture::new(|send_result, recv_waker| {
 			move || {
 				let waker = recv_waker
