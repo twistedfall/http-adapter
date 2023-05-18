@@ -21,7 +21,7 @@
 //! To create a new implementation of [`HttpClientAdapter`] for an HTTP client library please refer to the following crates:
 //!   * [`http-adapter-reqwest`][1] - async wrapper, simple case because `reqwest` is using `http` types internally
 //!   * [`http-adapter-surf`][2] - async wrapper, more complicated case because of the need to convert types
-//!   * ['http-adapter-ureq`][3] - sync wrapper, complex case because of the need to wrap a sync client in an runtime-agnostic fashion
+//!   * [`http-adapter-ureq`][3] - sync wrapper, complex case because of the need to wrap a sync client in an runtime-agnostic fashion
 //!
 //! # Simple APIClient example
 //!
