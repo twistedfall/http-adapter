@@ -1,6 +1,6 @@
 [package]
 name = "http-adapter"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Adapter for HTTP client agnostic requests"
 keywords = ["http", "request", "client"]

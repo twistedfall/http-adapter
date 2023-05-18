@@ -9,7 +9,7 @@ See [full documentation](https://docs.rs/http-adapter)
 Add this to your Cargo.toml:
 ```
 [dependencies]
-http-adapter = "0.1.0"
+http-adapter = "0.1.1"
 ```
 
 ![Maintenance](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg)
@@ -39,7 +39,7 @@ instance of [`http::Response`] with the server response. The request and respons
 To create a new implementation of [`HttpClientAdapter`] for an HTTP client library please refer to the following crates:
   * [`http-adapter-reqwest`][1] - async wrapper, simple case because `reqwest` is using `http` types internally
   * [`http-adapter-surf`][2] - async wrapper, more complicated case because of the need to convert types
-  * ['http-adapter-ureq`][3] - sync wrapper, complex case because of the need to wrap a sync client in an runtime-agnostic fashion
+  * [`http-adapter-ureq`][3] - sync wrapper, complex case because of the need to wrap a sync client in an runtime-agnostic fashion
 
 ## Simple APIClient example
 

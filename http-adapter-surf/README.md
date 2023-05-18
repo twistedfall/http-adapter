@@ -9,11 +9,11 @@ See [full documentation](https://docs.rs/http-adapter-surf)
 Add this to your Cargo.toml:
 ```
 [dependencies]
-http-adapter-surf = "0.1.0"
+http-adapter-surf = "0.1.1"
 ```
 
 ![Maintenance](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg)
-[![Build Status](https://github.com/twistedfall/http-adapter-surf/actions/workflows/http-adapter-surf.yml/badge.svg)](https://github.com/twistedfall/http-adapter-surf/actions/workflows/http-adapter-surf.yml)
+[![Build Status](https://github.com/twistedfall/http-adapter/actions/workflows/http-adapter.yml/badge.svg)](https://github.com/twistedfall/http-adapter/actions/workflows/http-adapter.yml)
 [![Documentation](https://docs.rs/http-adapter-surf/badge.svg)](https://docs.rs/http-adapter-surf)
 
 ## HTTP adapter implementation for [`surf`](https://crates.io/crates/surf)

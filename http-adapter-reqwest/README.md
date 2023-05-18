@@ -9,11 +9,11 @@ See [full documentation](https://docs.rs/http-adapter-reqwest)
 Add this to your Cargo.toml:
 ```
 [dependencies]
-http-adapter-reqwest = "0.1.0"
+http-adapter-reqwest = "0.1.1"
 ```
 
 ![Maintenance](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg)
-[![Build Status](https://github.com/twistedfall/http-adapter-reqwest/actions/workflows/http-adapter-reqwest.yml/badge.svg)](https://github.com/twistedfall/http-adapter-reqwest/actions/workflows/http-adapter-reqwest.yml)
+[![Build Status](https://github.com/twistedfall/http-adapter/actions/workflows/http-adapter.yml/badge.svg)](https://github.com/twistedfall/http-adapter/actions/workflows/http-adapter.yml)
 [![Documentation](https://docs.rs/http-adapter-reqwest/badge.svg)](https://docs.rs/http-adapter-reqwest)
 
 ## HTTP adapter implementation for [`reqwest`](https://crates.io/crates/reqwest)
