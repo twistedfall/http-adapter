@@ -5,4 +5,26 @@ edition = "2021"
 
 [dependencies]
 http-adapter = { version = "0.1", path = "../http-adapter" }
-reqwest = "0.11"
+reqwest = { version = "0.11", default-features = false }
+
+[features]
+default = ["default-tls"]
+default-tls = ["reqwest/default-tls"]
+native-tls = ["reqwest/native-tls"]
+native-tls-alpn = ["reqwest/native-tls-alpn"]
+native-tls-vendored = ["reqwest/native-tls-vendored"]
+rustls-tls = ["reqwest/rustls-tls"]
+rustls-tls-manual-roots = ["reqwest/rustls-tls-manual-roots"]
+rustls-tls-webpki-roots = ["reqwest/rustls-tls-webpki-roots"]
+rustls-tls-native-roots = ["reqwest/rustls-tls-native-roots"]
+blocking = ["reqwest/blocking"]
+cookies = ["reqwest/cookies"]
+gzip = ["reqwest/gzip"]
+brotli = ["reqwest/brotli"]
+deflate = ["reqwest/deflate"]
+json = ["reqwest/json"]
+multipart = ["reqwest/multipart"]
+trust-dns = ["reqwest/trust-dns"]
+stream = ["reqwest/stream"]
+socks = ["reqwest/socks"]
+http3 = ["reqwest/http3"]

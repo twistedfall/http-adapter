@@ -5,4 +5,16 @@ edition = "2021"
 
 [dependencies]
 http-adapter = { version = "0.1", path = "../http-adapter" }
-surf = "2.0"
+surf = { version = "2.0", default-features = false }
+
+[features]
+default = ["curl-client", "middleware-logger", "encoding"]
+curl-client = ["surf/curl-client"]
+h1-client = ["surf/h1-client"]
+h1-client-no-tls = ["surf/h1-client-no-tls"]
+h1-client-rustls = ["surf/h1-client-no-tls"]
+hyper-client = ["surf/hyper-client"]
+wasm-client = ["surf/wasm-client"]
+default-client = ["surf/default-client"]
+middleware-logger = ["surf/middleware-logger"]
+encoding = ["surf/encoding"]
