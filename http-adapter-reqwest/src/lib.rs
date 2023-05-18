@@ -1,3 +1,7 @@
+//! # HTTP adapter implementation for [`reqwest`](https://crates.io/crates/reqwest)
+//!
+//! For more details refer to [`http-adapter`](https://crates.io/crates/http-adapter)
+
 use std::error::Error as StdError;
 use std::fmt::{Debug, Display, Formatter, Result as FmtResult};
 

@@ -1,3 +1,7 @@
+//! # HTTP adapter implementation for [`surf`](https://crates.io/crates/surf)
+//!
+//! For more details refer to [`http-adapter`](https://crates.io/crates/http-adapter)
+
 use std::error::Error as StdError;
 use std::fmt::{Debug, Display, Formatter, Result as FmtResult};
 
