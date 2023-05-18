@@ -13,7 +13,7 @@ Add this to your Cargo.toml:
 ```
 
 {{badges}}
-[![Build Status](https://github.com/twistedfall/{{crate}}/actions/workflows/{{crate}}.yml/badge.svg)](https://github.com/twistedfall/{{crate}}/actions/workflows/{{crate}}.yml)
+[![Build Status](https://github.com/twistedfall/http-adapter/actions/workflows/http-adapter.yml/badge.svg)](https://github.com/twistedfall/http-adapter/actions/workflows/http-adapter.yml)
 [![Documentation](https://docs.rs/{{crate}}/badge.svg)](https://docs.rs/{{crate}})
 
 {{readme}}
