@@ -2,6 +2,16 @@
 name = "http-adapter-ureq"
 version = "0.1.0"
 edition = "2021"
+description = "HTTP adapter implementation for ureq"
+keywords = ["http", "request", "client"]
+categories = ["web-programming::http-client"]
+authors = ["Pro <twisted.fall@gmail.com>"]
+license = "LGPL-3.0"
+documentation = "https://docs.rs/http-adapter-ureq"
+repository = "https://github.com/twistedfall/http-adapter"
+
+[badges]
+maintenance = { status = "passively-maintained" }
 
 [dependencies]
 http-adapter = { version = "0.1", path = "../http-adapter" }
