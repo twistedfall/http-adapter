@@ -15,7 +15,7 @@ use std::thread::JoinHandle;
 pub use ureq;
 
 use http_adapter::async_trait::async_trait;
-use http_adapter::http::{StatusCode, Version};
+use http_adapter::http::{HeaderValue, StatusCode, Version};
 use http_adapter::{http, HttpClientAdapter};
 use http_adapter::{Request, Response};
 
@@ -43,6 +43,7 @@ impl Default for UreqAdapter {
 pub enum Error {
 	Http(http::Error),
 	Ureq(Box<ureq::Error>),
+	InvalidHeaderValue(HeaderValue),
 	InvalidHttpVersion(String),
 	InvalidStatusCode(u16),
 	InternalCommunicationError(String),
@@ -53,6 +54,9 @@ impl Display for Error {
 		match self {
 			Error::Http(e) => Display::fmt(e, f),
 			Error::Ureq(e) => Display::fmt(e, f),
+			Error::InvalidHeaderValue(header_value) => {
+				write!(f, "Invalid header value: {header_value:?}")
+			}
 			Error::InvalidHttpVersion(version) => {
 				write!(f, "Invalid HTTP version: {version}")
 			}
@@ -69,12 +73,13 @@ impl Display for Error {
 impl StdError for Error {}
 
 #[inline]
-fn from_request<B>(client: &ureq::Agent, request: &Request<B>) -> Result<ureq::Request, ureq::Error> {
+fn from_request<B>(client: &ureq::Agent, request: &Request<B>) -> Result<ureq::Request, Error> {
 	let mut out = client.request(request.method().as_str(), &request.uri().to_string());
 	for (name, value) in request.headers() {
-		if let Ok(value) = value.to_str() {
-			out = out.set(name.as_str(), value);
-		}
+		out = out.set(
+			name.as_str(),
+			value.to_str().map_err(|_| Error::InvalidHeaderValue(value.clone()))?,
+		);
 	}
 	Ok(out)
 }
@@ -111,13 +116,13 @@ impl HttpClientAdapter for UreqAdapter {
 	type Error = Error;
 
 	async fn execute(&self, request: Request<Vec<u8>>) -> Result<Response<Vec<u8>>, Self::Error> {
-		let req = from_request(&self.agent, &request).map_err(Error::Ureq)?;
+		let req = from_request(&self.agent, &request)?;
 		let res = ThreadFuture::new(|send_result, recv_waker| {
 			move || {
 				let waker = recv_waker
 					.recv()
 					.map_err(|_| Error::InternalCommunicationError("Waker receive channel is closed".to_string()))?;
-				match req.send_bytes(request.body()).map_err(Error::Ureq) {
+				match req.send_bytes(request.body()).map_err(|e| Error::Ureq(Box::new(e))) {
 					Ok(res) => send_result
 						.send(to_response(res))
 						.map_err(|_| Error::InternalCommunicationError("Result send channel is closed for Ok result".to_string()))?,
