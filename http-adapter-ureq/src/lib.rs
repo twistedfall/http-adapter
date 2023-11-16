@@ -42,7 +42,7 @@ impl Default for UreqAdapter {
 #[derive(Debug)]
 pub enum Error {
 	Http(http::Error),
-	Ureq(ureq::Error),
+	Ureq(Box<ureq::Error>),
 	InvalidHttpVersion(String),
 	InvalidStatusCode(u16),
 	InternalCommunicationError(String),
@@ -100,7 +100,9 @@ fn to_response(res: ureq::Response) -> Result<Response<Vec<u8>>, Error> {
 		}
 	}
 	let mut body = vec![];
-	res.into_reader().read_to_end(&mut body).map_err(|e| Error::Ureq(e.into()))?;
+	res.into_reader()
+		.read_to_end(&mut body)
+		.map_err(|e| Error::Ureq(Box::new(e.into())))?;
 	response.body(body).map_err(Error::Http)
 }
 

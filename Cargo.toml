@@ -1,2 +1,3 @@
 [workspace]
+resolver = "2"
 members = ["http-adapter", "http-adapter-reqwest", "http-adapter-surf", "http-adapter-ureq"]

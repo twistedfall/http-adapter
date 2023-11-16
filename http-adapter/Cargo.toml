@@ -15,4 +15,4 @@ maintenance = { status = "passively-maintained" }
 
 [dependencies]
 async-trait = "0.1"
-http = "1.0"
+http = "1"
