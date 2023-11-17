@@ -9,7 +9,7 @@ See [full documentation](https://docs.rs/http-adapter)
 Add this to your Cargo.toml:
 ```
 [dependencies]
-http-adapter = "0.1.1"
+http-adapter = "0.2.0"
 ```
 
 ![Maintenance](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg)
