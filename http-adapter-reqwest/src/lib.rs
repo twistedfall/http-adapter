@@ -83,7 +83,7 @@ fn from_request<B: Into<reqwest::Body>>(client: &reqwest::Client, request: Reque
 	let mut out = client
 		.request(
 			reqwest::Method::from_str(method_str).map_err(|_| Error::InvalidMethod(method_str.to_string()))?,
-			&request.uri().to_string(),
+			request.uri().to_string(),
 		)
 		.version(version);
 	for (name, value) in request.headers() {
