@@ -15,7 +15,7 @@ maintenance = { status = "passively-maintained" }
 
 [dependencies]
 http-adapter = { version = "0.2", path = "../http-adapter" }
-reqwest = { version = "0.11", default-features = false }
+reqwest = { version = "0.12", default-features = false }
 
 [features]
 default = ["default-tls"]
