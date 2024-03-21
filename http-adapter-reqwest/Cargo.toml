@@ -15,11 +15,13 @@ maintenance = { status = "passively-maintained" }
 
 [dependencies]
 http-adapter = { version = "0.2", path = "../http-adapter" }
+http-body-util = "0.1"
 reqwest = { version = "0.12", default-features = false }
 
 [features]
-default = ["default-tls"]
+default = ["reqwest/default"]
 default-tls = ["reqwest/default-tls"]
+http2 = ["reqwest/http2"]
 native-tls = ["reqwest/native-tls"]
 native-tls-alpn = ["reqwest/native-tls-alpn"]
 native-tls-vendored = ["reqwest/native-tls-vendored"]
@@ -28,13 +30,15 @@ rustls-tls-manual-roots = ["reqwest/rustls-tls-manual-roots"]
 rustls-tls-webpki-roots = ["reqwest/rustls-tls-webpki-roots"]
 rustls-tls-native-roots = ["reqwest/rustls-tls-native-roots"]
 blocking = ["reqwest/blocking"]
+charset = ["reqwest/charset"]
 cookies = ["reqwest/cookies"]
 gzip = ["reqwest/gzip"]
 brotli = ["reqwest/brotli"]
 deflate = ["reqwest/deflate"]
 json = ["reqwest/json"]
 multipart = ["reqwest/multipart"]
-trust-dns = ["reqwest/trust-dns"]
+hickory-dns = ["reqwest/hickory-dns"]
 stream = ["reqwest/stream"]
 socks = ["reqwest/socks"]
-http3 = ["reqwest/http3"]
+macos-system-configuration = ["reqwest/macos-system-configuration"]
+#http3 = ["reqwest/http3"]
