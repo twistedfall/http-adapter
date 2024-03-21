@@ -9,7 +9,7 @@ See [full documentation](https://docs.rs/http-adapter-reqwest)
 Add this to your Cargo.toml:
 ```
 [dependencies]
-http-adapter-reqwest = "0.2.0"
+http-adapter-reqwest = "0.3.0"
 ```
 
 ![Maintenance](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg)
