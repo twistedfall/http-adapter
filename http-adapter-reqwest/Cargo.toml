@@ -18,6 +18,9 @@ http-adapter = { version = "0.2", path = "../http-adapter" }
 http-body-util = "0.1"
 reqwest = { version = "0.12", default-features = false }
 
+[dev-dependencies]
+tokio = { version = "1", features = ["macros"] }
+
 [features]
 default = ["reqwest/default"]
 default-tls = ["reqwest/default-tls"]

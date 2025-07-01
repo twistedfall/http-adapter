@@ -17,6 +17,9 @@ maintenance = { status = "passively-maintained" }
 http-adapter = { version = "0.2", path = "../http-adapter" }
 surf = { version = "2", default-features = false }
 
+[dev-dependencies]
+tokio = { version = "1", features = ["macros"] }
+
 [features]
 default = ["surf/default"]
 curl-client = ["surf/curl-client"]
