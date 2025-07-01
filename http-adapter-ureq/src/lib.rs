@@ -1,6 +1,6 @@
-//! # HTTP adapter implementation for [`ureq`](https://crates.io/crates/ureq)
+//! # HTTP adapter implementation for [ureq](https://crates.io/crates/ureq)
 //!
-//! For more details refer to [`http-adapter`](https://crates.io/crates/http-adapter)
+//! For more details refer to [http-adapter](https://crates.io/crates/http-adapter)
 
 use std::error::Error as StdError;
 use std::fmt::{Debug, Display, Formatter, Result as FmtResult};
@@ -9,13 +9,13 @@ use std::io::Read;
 use std::pin::Pin;
 use std::sync::mpsc::{channel, Receiver, Sender, TryRecvError};
 use std::task::{Context, Poll, Waker};
-use std::thread;
 use std::thread::JoinHandle;
+use std::{io, thread};
 
 pub use ureq;
 
 use http_adapter::async_trait::async_trait;
-use http_adapter::http::{HeaderValue, StatusCode, Version};
+use http_adapter::http::HeaderValue;
 use http_adapter::{http, HttpClientAdapter};
 use http_adapter::{Request, Response};
 
@@ -34,7 +34,7 @@ impl Default for UreqAdapter {
 	#[inline]
 	fn default() -> Self {
 		Self {
-			agent: ureq::Agent::new(),
+			agent: ureq::Agent::new_with_defaults(),
 		}
 	}
 }
@@ -42,7 +42,8 @@ impl Default for UreqAdapter {
 #[derive(Debug)]
 pub enum Error {
 	Http(http::Error),
-	Ureq(Box<ureq::Error>),
+	Ureq(ureq::Error),
+	Io(io::Error),
 	InvalidHeaderValue(HeaderValue),
 	InvalidHttpVersion(String),
 	InvalidStatusCode(u16),
@@ -54,6 +55,7 @@ impl Display for Error {
 		match self {
 			Error::Http(e) => Display::fmt(e, f),
 			Error::Ureq(e) => Display::fmt(e, f),
+			Error::Io(e) => Display::fmt(e, f),
 			Error::InvalidHeaderValue(header_value) => {
 				write!(f, "Invalid header value: {header_value:?}")
 			}
@@ -73,42 +75,23 @@ impl Display for Error {
 impl StdError for Error {}
 
 #[inline]
-fn from_request<B>(client: &ureq::Agent, request: &Request<B>) -> Result<ureq::Request, Error> {
-	let mut out = client.request(request.method().as_str(), &request.uri().to_string());
-	for (name, value) in request.headers() {
-		out = out.set(
-			name.as_str(),
-			value.to_str().map_err(|_| Error::InvalidHeaderValue(value.clone()))?,
-		);
-	}
-	Ok(out)
-}
-
-#[inline]
-fn to_response(res: ureq::Response) -> Result<Response<Vec<u8>>, Error> {
-	let version = match res.http_version() {
-		"HTTP/0.9" => Version::HTTP_09,
-		"HTTP/1.0" => Version::HTTP_10,
-		"HTTP/1.1" => Version::HTTP_11,
-		"HTTP/2.0" => Version::HTTP_2,
-		"HTTP/3.0" => Version::HTTP_3,
-		_ => return Err(Error::InvalidHttpVersion(res.http_version().to_string())),
-	};
-
-	let status = StatusCode::from_u16(res.status()).map_err(|_| Error::InvalidStatusCode(res.status()))?;
-
-	let mut response = Response::builder().status(status).version(version);
-
-	for header_name in res.headers_names() {
-		if let Some(header_value) = res.header(&header_name) {
-			response = response.header(header_name, header_value);
+fn to_response(res: Response<ureq::Body>) -> Result<Response<Vec<u8>>, Error> {
+	let mut body_read_err = None;
+	let new_resp = res.map(|body| {
+		let mut out = Vec::with_capacity(usize::try_from(body.content_length().unwrap_or(4 * 1024)).unwrap_or(4 * 1024));
+		let res = body.into_reader().read_to_end(&mut out);
+		match res {
+			Ok(_) => out,
+			Err(err) => {
+				body_read_err = Some(err);
+				Vec::new()
+			}
 		}
+	});
+	match body_read_err {
+		None => Ok(new_resp),
+		Some(body_read_err) => Err(Error::Io(body_read_err)),
 	}
-	let mut body = vec![];
-	res.into_reader()
-		.read_to_end(&mut body)
-		.map_err(|e| Error::Ureq(Box::new(e.into())))?;
-	response.body(body).map_err(Error::Http)
 }
 
 #[async_trait(?Send)]
@@ -116,13 +99,13 @@ impl HttpClientAdapter for UreqAdapter {
 	type Error = Error;
 
 	async fn execute(&self, request: Request<Vec<u8>>) -> Result<Response<Vec<u8>>, Self::Error> {
-		let req = from_request(&self.agent, &request)?;
+		let agent = self.agent.clone();
 		let res = ThreadFuture::new(|send_result, recv_waker| {
 			move || {
 				let waker = recv_waker
 					.recv()
 					.map_err(|_| Error::InternalCommunicationError("Waker receive channel is closed".to_string()))?;
-				match req.send_bytes(request.body()).map_err(|e| Error::Ureq(Box::new(e))) {
+				match agent.run(request).map_err(Error::Ureq) {
 					Ok(res) => send_result
 						.send(to_response(res))
 						.map_err(|_| Error::InternalCommunicationError("Result send channel is closed for Ok result".to_string()))?,
