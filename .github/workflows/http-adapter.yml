@@ -3,25 +3,18 @@ on:
   push:
     branches:
       - "*"
-    tags_ignore:
-      - "*"
   pull_request:
     branches:
       - "*"
 jobs:
   ci:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
+    env:
+      SCCACHE_GHA_ENABLED: "true"
+      RUSTC_WRAPPER: "sccache"
     steps:
-      - uses: actions/checkout@v3
-
+      - uses: actions/checkout@v4
+      - uses: mozilla-actions/sccache-action@v0.0.8
       - uses: dtolnay/rust-toolchain@stable
-
-      - name: Clippy
-        run: cargo clippy --workspace --all-targets --all-features --tests -- -D warnings
-        env:
-          RUSTFLAGS: '--cfg reqwest_unstable'
-
-      - name: Test
-        run: cargo test --workspace --all-targets --all-features
-        env:
-          RUSTFLAGS: '--cfg reqwest_unstable'
+      - run: cargo clippy --workspace --all-features --tests -- -D warnings
+      - run: cargo test --workspace --all-features
