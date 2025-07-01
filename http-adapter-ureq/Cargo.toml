@@ -18,7 +18,7 @@ http-adapter = { version = "0.2", path = "../http-adapter" }
 ureq = { version = "3.0", default-features = false }
 
 [features]
-default = ["rustls", "gzip"]
+default = ["ureq/default"]
 rustls = ["ureq/rustls"]
 native-tls = ["ureq/native-tls"]
 platform-verifier = ["ureq/platform-verifier"]
