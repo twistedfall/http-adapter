@@ -1,20 +1,24 @@
 # http-adapter
 
-## Documentation
+[![Build Status](https://github.com/twistedfall/http-adapter/actions/workflows/http-adapter.yml/badge.svg)](https://github.com/twistedfall/http-adapter/actions/workflows/http-adapter.yml)
+[![Documentation](https://docs.rs/http-adapter/badge.svg)](https://docs.rs/http-adapter)
+[![Crates.io](https://img.shields.io/crates/v/http-adapter)](https://crates.io/crates/http-adapter)
+![Maintenance](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg)
 
-See [full documentation](https://docs.rs/http-adapter)
+[Support the project](https://github.com/sponsors/twistedfall) | [Documentation](https://docs.rs/http-adapter)
+
 
 ## Usage
 
-Add this to your Cargo.toml:
+Run:
+```shell
+cargo add http-adapter
 ```
+Or add to your Cargo.toml:
+```toml
 [dependencies]
-http-adapter = "0.2.0"
+http-adapter = "0.2.1"
 ```
-
-![Maintenance](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg)
-[![Build Status](https://github.com/twistedfall/http-adapter/actions/workflows/http-adapter.yml/badge.svg)](https://github.com/twistedfall/http-adapter/actions/workflows/http-adapter.yml)
-[![Documentation](https://docs.rs/http-adapter/badge.svg)](https://docs.rs/http-adapter)
 
 ## Adapter for HTTP client agnostic requests
 
@@ -79,4 +83,6 @@ impl<HttpClient: HttpClientAdapter + Default> Default for APIClient<HttpClient> 
 [2]: <https://crates.io/crates/http-adapter-surf>
 [3]: <https://crates.io/crates/http-adapter-ureq>
 
-License: LGPL-3.0
+## License
+
+LGPL-3.0
