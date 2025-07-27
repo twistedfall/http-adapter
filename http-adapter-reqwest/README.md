@@ -17,7 +17,7 @@ cargo add http-adapter-reqwest
 Or add to your Cargo.toml:
 ```toml
 [dependencies]
-http-adapter-reqwest = "0.3.1"
+http-adapter-reqwest = "0.4.0"
 ```
 
 ## HTTP adapter implementation for [`reqwest`](https://crates.io/crates/reqwest)
