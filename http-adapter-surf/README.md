@@ -17,7 +17,7 @@ cargo add http-adapter-surf
 Or add to your Cargo.toml:
 ```toml
 [dependencies]
-http-adapter-surf = "0.2.1"
+http-adapter-surf = "0.3.0"
 ```
 
 ## HTTP adapter implementation for [`surf`](https://crates.io/crates/surf)
