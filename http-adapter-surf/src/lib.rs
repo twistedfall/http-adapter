@@ -190,7 +190,7 @@ async fn to_response(mut res: surf::Response) -> Result<Response<Vec<u8>>, Error
 	response.body(body).map_err(Error::Http)
 }
 
-#[async_trait(?Send)]
+#[async_trait]
 impl HttpClientAdapter for SurfAdapter {
 	type Error = Error;
 

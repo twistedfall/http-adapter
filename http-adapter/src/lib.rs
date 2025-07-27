@@ -67,7 +67,7 @@ pub use http::{Request, Response};
 
 /// Adapter to allow different HTTP clients to be used to issue an HTTP request.
 /// To properly implement this trait, use [async_trait](https://crates.io/crates/async-trait).
-#[async_trait::async_trait(? Send)]
+#[async_trait::async_trait]
 pub trait HttpClientAdapter {
 	/// Error type used by the underlying HTTP library
 	type Error;

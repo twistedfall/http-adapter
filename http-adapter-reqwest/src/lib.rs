@@ -43,7 +43,7 @@ async fn to_response(res: reqwest::Response) -> Result<Response<Vec<u8>>, reqwes
 	Ok(res.map(move |_| body_bytes))
 }
 
-#[async_trait(?Send)]
+#[async_trait]
 impl HttpClientAdapter for ReqwestAdapter {
 	type Error = reqwest::Error;
 

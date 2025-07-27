@@ -94,7 +94,7 @@ fn to_response(res: Response<ureq::Body>) -> Result<Response<Vec<u8>>, Error> {
 	}
 }
 
-#[async_trait(?Send)]
+#[async_trait]
 impl HttpClientAdapter for UreqAdapter {
 	type Error = Error;
 
