@@ -17,7 +17,7 @@ cargo add http-adapter-ureq
 Or add to your Cargo.toml:
 ```toml
 [dependencies]
-http-adapter-ureq = "0.3.1"
+http-adapter-ureq = "0.4.0"
 ```
 
 ## HTTP adapter implementation for [ureq](https://crates.io/crates/ureq)
