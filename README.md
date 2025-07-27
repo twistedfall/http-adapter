@@ -17,7 +17,7 @@ cargo add http-adapter
 Or add to your Cargo.toml:
 ```toml
 [dependencies]
-http-adapter = "0.2.1"
+http-adapter = "0.3.0"
 ```
 
 ## Adapter for HTTP client agnostic requests

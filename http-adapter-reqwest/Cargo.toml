@@ -14,7 +14,7 @@ repository = "https://github.com/twistedfall/http-adapter"
 maintenance = { status = "passively-maintained" }
 
 [dependencies]
-http-adapter = { version = "0.2", path = "../http-adapter" }
+http-adapter = { version = "0.3", path = "../http-adapter" }
 http-body-util = "0.1"
 reqwest = { version = "0.12", default-features = false }
 
